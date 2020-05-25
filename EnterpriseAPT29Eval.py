@@ -90,7 +90,7 @@ class EnterpriseAPT29Eval():
 			
 		if self._steps == None:
 			self.findPowerShell()
-			self.flattenDetections(confchange=False)
+			self.flattenDetections(confchange=True)
 			removed = pd.value_counts(self._df['Detection'].values)['N/A']
 			self._steps = len(self._df.index) - removed
 		return self._steps
@@ -138,7 +138,7 @@ class EnterpriseAPT29Eval():
 	def score_detections(self):
 		self.sortSubSteps()
 		if self._visibility == None:
-			self.flattenDetections(confchange=False)
+			self.flattenDetections(confchange=True)
 			misses = pd.value_counts(self._df['Detection'].values)['None']
 			self._visibility = self.steps - misses
 		if self._correlated == None:
@@ -300,7 +300,7 @@ if __name__ == '__main__':
 
 	for infile in sorted(glob.glob(os.path.join('data', '*json'))):
 		obj = EnterpriseAPT29Eval(infile)
-#		readout(obj)
+		readout(obj)
 		results.update({obj.vendor: obj})
 
 	write_xlsx(results)
